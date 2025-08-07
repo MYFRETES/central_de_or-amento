@@ -1,1 +1,325 @@
-# central_de_or-amento
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MYfretes - Orçamento</title>
+
+  <!-- Cabeçalhos de segurança -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://wa.me; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="Referrer-Policy" content="no-referrer">
+  <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=()">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body {
+      background: linear-gradient(to right, #fff5f5, #fffdf7);
+      padding: 30px 10px;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background-color: white;
+      padding: 25px 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #6f42c1;
+      margin-bottom: 25px;
+      font-weight: 800;
+    }
+    label {
+      font-weight: 600;
+      margin: 10px 0 5px;
+      display: block;
+      color: #333;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #6f42c1;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+    select { background-color: white; }
+    .section-title {
+      font-weight: 700;
+      color: #ff6f00;
+      margin-top: 20px;
+      margin-bottom: 5px;
+      font-size: 16px;
+      border-left: 4px solid #ff6f00;
+      padding-left: 8px;
+    }
+    .card-yellow {
+      background-color: #fff4cc;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+    .tag {
+      display: inline-block;
+      background-color: #6f42c1;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      margin: 5px 5px 0 0;
+      font-size: 13px;
+    }
+    .tag button {
+      background: none;
+      border: none;
+      color: white;
+      margin-left: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    #itensTags {
+      min-height: 40px;
+      border: 2px dashed #6f42c1;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+    .observacao {
+      font-size: 0.85em;
+      color: #cc0000;
+      margin-top: -10px;
+      margin-bottom: 15px;
+    }
+    button, a {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 12px;
+      background-color: #6f42c1;
+      color: white;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+    button:hover, a:hover { background-color: #5a32a3; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>MYfretes - Orçamento</h2>
+
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" placeholder="Digite seu nome completo" />
+
+    <label for="telefone">Telefone:</label>
+    <input type="text" id="telefone" placeholder="(xx) xxxxx-xxxx" />
+
+    <div class="section-title">📍 Endereço de Retirada</div>
+    <label for="ruaRetirada">Rua:</label>
+    <input type="text" id="ruaRetirada" placeholder="Rua de retirada" />
+    <label for="numeroRetirada">Número:</label>
+    <input type="text" id="numeroRetirada" placeholder="Número" />
+    <label for="bairroRetirada">Bairro:</label>
+    <input type="text" id="bairroRetirada" placeholder="Bairro" />
+    <label for="cidadeRetirada">Cidade:</label>
+    <input type="text" id="cidadeRetirada" placeholder="Cidade" />
+
+    <div class="section-title">📍 Endereço de Entrega</div>
+    <label for="ruaEntrega">Rua:</label>
+    <input type="text" id="ruaEntrega" placeholder="Rua de entrega" />
+    <label for="numeroEntrega">Número:</label>
+    <input type="text" id="numeroEntrega" placeholder="Número" />
+    <label for="bairroEntrega">Bairro:</label>
+    <input type="text" id="bairroEntrega" placeholder="Bairro" />
+    <label for="cidadeEntrega">Cidade:</label>
+    <input type="text" id="cidadeEntrega" placeholder="Cidade" />
+
+    <label for="itensInput">Itens a transportar:</label>
+    <input type="text" id="itensInput" placeholder="Digite um item e pressione Enter" />
+    <div id="itensTags"></div>
+    <div class="observacao">⚠️ É essencial listar todos os itens corretamente para evitar alteração no valor final.</div>
+
+    <label for="ajudante">Precisa de ajudante?</label>
+    <select id="ajudante">
+      <option value="nao">Não</option>
+      <option value="sim">Sim</option>
+    </select>
+
+    <div id="detalhesAjudante" class="card-yellow hidden">
+      <label for="quantidade">Quantidade de ajudantes</label>
+      <input type="number" id="quantidade" min="1" max="10" />
+
+      <label for="desmItens">Itens a desmontar:</label>
+      <textarea id="desmItens" rows="2" placeholder="Ex: Guarda-roupa, mesa..."></textarea>
+
+      <div class="section-title">📍 Local de Retirada</div>
+      <label for="tipoRetirada">Tipo:</label>
+      <select id="tipoRetirada">
+        <option value="casa">Casa</option>
+        <option value="apartamento">Apartamento</option>
+      </select>
+
+      <label for="acessoRetirada">Fácil acesso?</label>
+      <select id="acessoRetirada">
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+
+      <label for="nivelRetirada">Escadas, elevador ou plano?</label>
+      <select id="nivelRetirada">
+        <option value="escadas">Escadas</option>
+        <option value="elevador">Elevador</option>
+        <option value="plano">Local plano</option>
+      </select>
+
+      <div class="section-title">📦 Local de Destino</div>
+      <label for="tipoDestino">Tipo:</label>
+      <select id="tipoDestino">
+        <option value="casa">Casa</option>
+        <option value="apartamento">Apartamento</option>
+      </select>
+
+      <label for="acessoDestino">Fácil acesso?</label>
+      <select id="acessoDestino">
+        <option value="sim">Sim</option>
+        <option value="nao">Não</option>
+      </select>
+
+      <label for="nivelDestino">Escadas, elevador ou plano?</label>
+      <select id="nivelDestino">
+        <option value="escadas">Escadas</option>
+        <option value="elevador">Elevador</option>
+        <option value="plano">Local plano</option>
+      </select>
+
+      <div id="campoAndares" class="hidden">
+        <label for="andares">Número de andares:</label>
+        <select id="andares">
+          <option value="">Selecione</option>
+          <script>
+            for (let i = 1; i <= 30; i++) {
+              document.write(`<option>${i}</option>`);
+            }
+          </script>
+        </select>
+      </div>
+    </div>
+
+    <a id="linkWhatsapp" target="_blank">Enviar Orçamento via WhatsApp</a>
+  </div>
+
+  <script>
+    const listaItens = [];
+    const input = document.getElementById('itensInput');
+    const tagsContainer = document.getElementById('itensTags');
+    let tentativasEnvio = 0;
+
+    input.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter' && input.value.trim() !== '') {
+        e.preventDefault();
+        const texto = input.value.trim();
+        listaItens.push(texto);
+        renderizarTags();
+        input.value = '';
+      }
+    });
+
+    function renderizarTags() {
+      tagsContainer.innerHTML = '';
+      listaItens.forEach((item, index) => {
+        const tag = document.createElement('span');
+        tag.classList.add('tag');
+        tag.innerHTML = `${item} <button onclick="removerTag(${index})">×</button>`;
+        tagsContainer.appendChild(tag);
+      });
+    }
+
+    function removerTag(index) {
+      listaItens.splice(index, 1);
+      renderizarTags();
+    }
+
+    document.getElementById('ajudante').addEventListener('change', function () {
+      document.getElementById('detalhesAjudante').classList.toggle('hidden', this.value !== 'sim');
+    });
+
+    document.getElementById('nivelRetirada').addEventListener('change', verificarEscadas);
+    document.getElementById('nivelDestino').addEventListener('change', verificarEscadas);
+
+    function verificarEscadas() {
+      const retirada = document.getElementById('nivelRetirada').value;
+      const destino = document.getElementById('nivelDestino').value;
+      const campo = document.getElementById('campoAndares');
+      campo.classList.toggle('hidden', !(retirada === 'escadas' && destino === 'escadas'));
+    }
+
+    document.getElementById('linkWhatsapp').addEventListener('click', function (e) {
+      tentativasEnvio++;
+      if (tentativasEnvio > 5) {
+        alert("Você tentou enviar muitas vezes. Aguarde antes de tentar novamente.");
+        e.preventDefault();
+        return;
+      }
+
+      const nome = document.getElementById('nome').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+
+      const retirada = `Rua: ${document.getElementById('ruaRetirada').value}, Nº: ${document.getElementById('numeroRetirada').value}, Bairro: ${document.getElementById('bairroRetirada').value}, Cidade: ${document.getElementById('cidadeRetirada').value}`;
+      const destino = `Rua: ${document.getElementById('ruaEntrega').value}, Nº: ${document.getElementById('numeroEntrega').value}, Bairro: ${document.getElementById('bairroEntrega').value}, Cidade: ${document.getElementById('cidadeEntrega').value}`;
+      const ajudante = document.getElementById('ajudante').value;
+
+      let msg = `*ORÇAMENTO MYFRETES*%0A%0A`;
+      msg += `👤 Nome: ${nome}%0A`;
+      msg += `📞 Telefone: ${telefone}%0A`;
+      msg += `📍 Retirada: ${retirada}%0A`;
+      msg += `📍 Entrega: ${destino}%0A`;
+      msg += `📦 Itens:%0A${listaItens.map(i => `- ${i}`).join('%0A')}%0A`;
+      msg += `🙋‍♂️ Ajudante: ${ajudante}%0A`;
+
+      if (ajudante === 'sim') {
+        const nivelRetirada = document.getElementById('nivelRetirada').value;
+        const nivelDestino = document.getElementById('nivelDestino').value;
+        const andares = document.getElementById('andares').value;
+
+        msg += `👥 Qtde Ajudantes: ${document.getElementById('quantidade').value || 'N/A'}%0A`;
+        msg += `🛠️ Desmontar: ${document.getElementById('desmItens').value || 'N/A'}%0A`;
+        msg += `🏠 Retirada: Tipo: ${document.getElementById('tipoRetirada').value}, Facil Acesso: ${document.getElementById('acessoRetirada').value}, Nível: ${nivelRetirada}%0A`;
+        msg += `🏡 Destino: Tipo: ${document.getElementById('tipoDestino').value}, Facil Acesso: ${document.getElementById('acessoDestino').value}, Nível: ${nivelDestino}%0A`;
+
+        if (nivelRetirada === 'escadas' && nivelDestino === 'escadas' && andares) {
+          msg += `🏢 Número de andares: ${andares}%0A`;
+        }
+      }
+
+      const numero = '5531975135130';
+      const url = `https://wa.me/${numero}?text=${msg}`;
+      window.open(url, '_blank');
+    });
+
+    // Segurança extra: bloqueio de inspeção
+    document.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+        (e.ctrlKey && e.key === 'U') ||
+        (e.ctrlKey && e.shiftKey && e.key === 'J')
+      ) {
+        e.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>
